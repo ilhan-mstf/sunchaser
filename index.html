@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
+  <!-- PRIMARY SEO -->
+  <title>SunChaser — Is There Sun Near You Right Now?</title>
+  <meta name="description" content="SunChaser instantly tells you if there's sunshine at your location — and finds the nearest sunny spot if it's cloudy. Free, fast, no sign-up needed." />
+  <meta name="keywords" content="sunshine finder, sun near me, is it sunny today, sun forecast, find sunshine, sunny weather, cloud cover, weather PWA, sun locator, outdoor weather" />
+  <meta name="author" content="SunChaser" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+  <link rel="canonical" href="https://sunchaser.pages.dev/" />
+
+  <!-- OPEN GRAPH -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://sunchaser.pages.dev/" />
+  <meta property="og:site_name" content="SunChaser" />
+  <meta property="og:title" content="SunChaser — Find Your Sunshine" />
+  <meta property="og:description" content="Check if the sun is out near you right now, or find the nearest sunny spot within 50 km. Free weather app — works on any device, no sign-up." />
+  <meta property="og:image" content="https://sunchaser.pages.dev/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="SunChaser — Find sunshine near you" />
+  <meta property="og:locale" content="en_US" />
+
+  <!-- TWITTER CARD -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="SunChaser — Find Your Sunshine" />
+  <meta name="twitter:description" content="Instantly check if the sun is out near you. Find the nearest sunny spot within 50 km. Free weather PWA." />
+  <meta name="twitter:image" content="https://sunchaser.pages.dev/og-image.png" />
+
+  <!-- PWA -->
+  <meta name="theme-color" content="#c0620a" id="theme-meta" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="SunChaser" />
+  <meta name="application-name" content="SunChaser" />
+  <meta name="msapplication-TileColor" content="#c0620a" />
+  <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22SunChaser%22%2C%22short_name%22%3A%22SunChaser%22%2C%22description%22%3A%22Find%20sunshine%20near%20you%22%2C%22start_url%22%3A%22.%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23c0620a%22%2C%22theme_color%22%3A%22%23c0620a%22%2C%22categories%22%3A%5B%22weather%22%2C%22lifestyle%22%5D%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%2C%253Csvg%2520xmlns%3D%2527http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%2527%2520viewBox%3D%25270%25200%2520100%2520100%2527%253E%253Ccircle%2520cx%3D%252750%2527%2520cy%3D%252750%2527%2520r%3D%252730%2527%2520fill%3D%2527%2523f5a623%2527%2F%253E%253C%2Fsvg%253E%22%2C%22sizes%22%3A%22any%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%2C%22purpose%22%3A%22any%20maskable%22%7D%5D%7D" />
+
+  <!-- STRUCTURED DATA -->
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebApplication","name":"SunChaser","url":"https://sunchaser.pages.dev/","description":"SunChaser instantly tells you if there is sunshine at your location and finds the nearest sunny spot if it is cloudy.","applicationCategory":"WeatherApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"author":{"@type":"Organization","name":"SunChaser","url":"https://sunchaser.pages.dev/"},"featureList":["Real-time sun forecast","Nearby sunshine finder","Hourly forecast","Works offline","Installable PWA"]}
+  </script>
+
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebApplication","name":"SunChaser","url":"https://sunchaser.pages.dev/","description":"SunChaser instantly tells you if there is sunshine at your location and finds the nearest sunny spot if it is cloudy.","applicationCategory":"WeatherApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"author":{"@type":"Organization","name":"SunChaser","url":"https://sunchaser.pages.dev/"},"featureList":["Real-time sun forecast","Nearby sunshine finder","Hourly forecast","Works offline","Installable PWA"]}
+  </script>
+
+  <!-- FONTS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --grad-sunny:    linear-gradient(165deg, #a04d08 0%, #c96b10 30%, #e08a20 60%, #f0b030 100%);
+      --grad-partly:   linear-gradient(165deg, #0e3a6e 0%, #1a5496 35%, #2e78c0 65%, #4a9ad8 100%);
+      --grad-cloudy:   linear-gradient(165deg, #1e2c38 0%, #2e4050 40%, #445a6a 70%, #607888 100%);
+      --grad-overcast: linear-gradient(165deg, #141820 0%, #1e2530 50%, #2a3340 100%);
+      --grad-night:    linear-gradient(165deg, #060a14 0%, #0c1428 40%, #121e40 75%, #0a2458 100%);
+      --grad-loading:  linear-gradient(165deg, #1e2c38 0%, #2e4050 100%);
+      --text-primary:        #ffffff;
+      --text-secondary:      rgba(255,255,255,0.90);
+      --text-muted:          rgba(255,255,255,0.72);
+      --glass:               rgba(0,0,0,0.26);
+      --glass-hover:         rgba(0,0,0,0.36);
+      --glass-active:        rgba(0,0,0,0.44);
+      --glass-border:        rgba(255,255,255,0.18);
+      --glass-border-strong: rgba(255,255,255,0.34);
+      --hi-bg:               rgba(255,255,255,0.16);
+      --hi-border:           rgba(255,255,255,0.40);
+      --ff-display: 'Syne', system-ui, sans-serif;
+      --ff-body:    'Instrument Sans', system-ui, sans-serif;
+      --sp-xs:4px; --sp-sm:8px; --sp-md:16px; --sp-lg:24px; --sp-xl:36px;
+      --safe-t: env(safe-area-inset-top,    0px);
+      --safe-b: env(safe-area-inset-bottom, 0px);
+      --safe-l: env(safe-area-inset-left,   0px);
+      --safe-r: env(safe-area-inset-right,  0px);
+      --touch: 48px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { height: 100%; font-size: 16px; -webkit-text-size-adjust: 100%; }
+    body {
+      height: 100%; font-family: var(--ff-body);
+      background: var(--grad-loading); color: var(--text-primary);
+      -webkit-font-smoothing: antialiased; overflow: hidden;
+      transition: background 1.3s cubic-bezier(.4,0,.2,1);
+    }
+    :focus-visible { outline: 3px solid rgba(255,255,255,.9); outline-offset: 3px; border-radius: 10px; }
+    .skip-link {
+      position: absolute; top: -120%; left: 16px; z-index: 9999;
+      background: #fff; color: #000; padding: 8px 16px;
+      border-radius: 0 0 10px 10px; font-size: 14px; font-weight: 600;
+      text-decoration: none; transition: top .2s;
+    }
+    .skip-link:focus { top: 0; }
+    #app { height: 100%; position: relative; overflow: hidden; }
+
+    /* SCREENS */
+    .screen {
+      position: absolute; inset: 0; display: flex; flex-direction: column;
+      opacity: 0; pointer-events: none; transform: translateY(10px);
+      transition: opacity .35s ease, transform .35s ease; will-change: opacity, transform;
+    }
+    .screen.active { opacity: 1; pointer-events: all; transform: translateY(0); }
+    @media (prefers-reduced-motion: reduce) {
+      .screen { transition: opacity .2s; transform: none !important; }
+      body { transition: background .3s; }
+      .anim-sun, .anim-moon { animation: none !important; }
+    }
+
+    /* BUTTONS */
+    .btn {
+      display: flex; align-items: center; justify-content: center;
+      width: 100%; max-width: 300px; height: 54px; padding: 0 var(--sp-lg);
+      border-radius: 16px; border: none; font-family: var(--ff-display);
+      font-size: 17px; font-weight: 700; line-height: 54px; letter-spacing: -.3px;
+      cursor: pointer; transition: transform .12s, box-shadow .18s;
+      text-align: center; text-decoration: none; white-space: nowrap;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .btn:active { transform: scale(.97); }
+    .btn-primary { background: #fff; color: #7a2e00; box-shadow: 0 4px 18px rgba(0,0,0,.28); }
+    .btn-primary:hover { box-shadow: 0 6px 26px rgba(0,0,0,.36); }
+    .btn-secondary {
+      background: var(--glass); color: var(--text-primary);
+      border: 1.5px solid var(--glass-border-strong) !important;
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); margin-top: 10px;
+    }
+    .btn-secondary:hover { background: var(--glass-hover); }
+    .back-btn {
+      display: flex; align-items: center; justify-content: center;
+      width: var(--touch); height: var(--touch); flex-shrink: 0;
+      background: var(--glass); border: 1px solid var(--glass-border); border-radius: 50%;
+      cursor: pointer; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      color: var(--text-primary); font-size: 20px; line-height: 1;
+      transition: background .18s, border-color .18s; -webkit-tap-highlight-color: transparent;
+    }
+    .back-btn:hover  { background: var(--glass-hover);  border-color: var(--glass-border-strong); }
+    .back-btn:active { background: var(--glass-active); }
+    .section-label {
+      font-family: var(--ff-display); font-size: 12px; font-weight: 700;
+      letter-spacing: 1.8px; text-transform: uppercase;
+      color: var(--text-muted); margin-bottom: 10px; padding-left: 2px;
+    }
+
+    /* PERMISSION SCREEN */
+    #screen-permission {
+      align-items: center; justify-content: center; text-align: center;
+      padding: calc(var(--safe-t) + 48px) 32px calc(var(--safe-b) + 48px); gap: 0;
+    }
+    .perm-icon { font-size: 84px; margin-bottom: var(--sp-lg); line-height: 1; }
+    .perm-title {
+      font-family: var(--ff-display); font-weight: 800; font-size: clamp(34px,9vw,48px);
+      color: var(--text-primary); letter-spacing: -1.2px; line-height: 1.06; margin-bottom: 14px;
+    }
+    .perm-sub { font-size: 17px; color: var(--text-secondary); line-height: 1.55; margin-bottom: 32px; max-width: 280px; }
+    .saved-chip {
+      display: flex; align-items: center; gap: 8px;
+      background: var(--hi-bg); border: 1px solid var(--hi-border);
+      border-radius: 100px; padding: 10px 18px; margin-bottom: 12px;
+      font-size: 15px; font-weight: 600; color: var(--text-primary);
+      cursor: pointer; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      transition: background .18s; -webkit-tap-highlight-color: transparent;
+    }
+    .saved-chip:hover  { background: rgba(255,255,255,.24); }
+    .saved-chip:active { background: rgba(255,255,255,.32); }
+    .saved-chip.hidden { display: none; }
+
+    /* LOADING SCREEN */
+    #screen-loading { align-items: center; justify-content: center; gap: var(--sp-md); padding: var(--sp-xl); }
+    .loading-sun { font-size: 84px; animation: sunPulse 2s ease-in-out infinite; }
+    .loading-text { font-family: var(--ff-display); font-weight: 700; font-size: 24px; color: var(--text-primary); letter-spacing: -.5px; }
+    .loading-sub { font-size: 16px; color: var(--text-secondary); text-align: center; max-width: 260px; line-height: 1.5; }
+
+    /* MAIN SCREEN */
+    #screen-main {
+      padding: calc(var(--safe-t) + var(--sp-lg)) 0 0;
+      overflow-y: auto; overflow-x: hidden;
+      -webkit-overflow-scrolling: touch; overscroll-behavior-y: contain;
+    }
+    .header {
+      display: flex; align-items: center; justify-content: space-between; gap: var(--sp-md);
+      margin-bottom: var(--sp-sm); padding: 0 var(--sp-lg);
+    }
+    .app-name { font-family: var(--ff-display); font-weight: 800; font-size: 20px; color: var(--text-primary); letter-spacing: -.4px; user-select: none; }
+    .location-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      height: var(--touch); padding: 0 14px;
+      background: var(--glass); border: 1px solid var(--glass-border);
+      border-radius: 100px; font-size: 14px; font-weight: 500;
+      color: var(--text-primary); font-family: var(--ff-body);
+      cursor: pointer; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      transition: background .18s, border-color .18s; max-width: 190px;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .location-pill:hover  { background: var(--glass-hover); border-color: var(--glass-border-strong); }
+    .location-pill:active { background: var(--glass-active); }
+    .location-pill svg { flex-shrink: 0; opacity: .85; }
+    #location-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+    .hero {
+      display: flex; flex-direction: column; align-items: center;
+      text-align: center; padding: var(--sp-xl) var(--sp-lg) var(--sp-lg);
+    }
+    @keyframes sunPulse {
+      0%,100% { transform: scale(1) rotate(-2deg);   filter: drop-shadow(0 6px 20px rgba(255,190,60,.5)); }
+      50%      { transform: scale(1.08) rotate(2deg); filter: drop-shadow(0 10px 32px rgba(255,200,80,.8)); }
+    }
+    @keyframes nightFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes heartbeat {
+      0%,100% { transform: scale(1); } 14% { transform: scale(1.3); }
+      28% { transform: scale(1); }    42% { transform: scale(1.15); } 70% { transform: scale(1); }
+    }
+    .sun-icon { font-size: 100px; line-height: 1; margin-bottom: var(--sp-md); display: block; filter: drop-shadow(0 6px 18px rgba(0,0,0,.2)); }
+    .anim-sun  { animation: sunPulse 3.5s ease-in-out infinite; }
+    .anim-moon { animation: nightFloat 4s ease-in-out infinite; }
+    .hero-status { font-family: var(--ff-display); font-weight: 800; font-size: clamp(42px,11vw,60px); color: var(--text-primary); line-height: 1.02; letter-spacing: -2px; margin-bottom: 10px; }
+    .hero-sub { font-size: 17px; font-weight: 500; color: var(--text-secondary); letter-spacing: .1px; }
+    .best-window {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--glass); border: 1px solid var(--glass-border-strong);
+      border-radius: 100px; padding: 10px 18px; margin-top: var(--sp-lg);
+      font-size: 15px; font-weight: 600; color: var(--text-primary);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); letter-spacing: -.1px;
+    }
+    .best-window.hidden { display: none; }
+    .stale-badge {
+      display: none; align-items: center; gap: 6px;
+      background: rgba(200,130,20,.22); border: 1px solid rgba(240,170,50,.4);
+      border-radius: 100px; padding: 6px 14px; margin-top: var(--sp-sm);
+      font-size: 13px; font-weight: 500; color: rgba(255,215,130,1);
+    }
+    .stale-badge.visible { display: inline-flex; }
+
+    /* HOURLY FORECAST — smooth transparent edge fade using CSS mask */
+    .hourly-section { margin-top: var(--sp-lg); }
+    .hourly-section-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 var(--sp-lg); margin-bottom: 10px;
+    }
+
+    /* Outer wrapper applies the mask — no pseudo-elements, no colour guessing */
+    .hourly-outer {
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, black 48px, black calc(100% - 48px), transparent 100%);
+      mask-image:         linear-gradient(to right, transparent 0%, black 48px, black calc(100% - 48px), transparent 100%);
+      transition: -webkit-mask-image .25s ease, mask-image .25s ease;
+    }
+    /* When at the left edge — no left fade */
+    .hourly-outer.at-start {
+      -webkit-mask-image: linear-gradient(to right, black 0%, black calc(100% - 48px), transparent 100%);
+      mask-image:         linear-gradient(to right, black 0%, black calc(100% - 48px), transparent 100%);
+    }
+    /* When at the right edge — no right fade */
+    .hourly-outer.at-end {
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, black 48px, black 100%);
+      mask-image:         linear-gradient(to right, transparent 0%, black 48px, black 100%);
+    }
+    /* When both — no fades at all */
+    .hourly-outer.at-start.at-end {
+      -webkit-mask-image: none;
+      mask-image: none;
+    }
+
+    .hourly-wrap {
+      padding: 0 var(--sp-lg);
+      overflow-x: auto; -webkit-overflow-scrolling: touch;
+      scrollbar-width: none; scroll-snap-type: x proximity; scroll-behavior: smooth;
+    }
+    .hourly-wrap::-webkit-scrollbar { display: none; }
+    .hourly-strip { display: flex; gap: 6px; padding-bottom: 6px; min-width: max-content; }
+    .hourly-item {
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      background: var(--glass); border: 1px solid var(--glass-border);
+      border-radius: 16px; padding: 12px 10px 10px; min-width: 62px;
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); scroll-snap-align: start;
+    }
+    .hourly-item.current { background: var(--hi-bg); border-color: var(--hi-border); }
+    .hourly-time { font-size: 13px; font-weight: 500; color: var(--text-muted); white-space: nowrap; }
+    .hourly-item.current .hourly-time { color: var(--text-primary); font-weight: 700; }
+    .hourly-icon { font-size: 24px; line-height: 1; }
+    .hourly-pct  { font-size: 13px; font-weight: 600; color: var(--text-secondary); }
+
+    /* NEARBY CTA — full width, side-padded, text grid-aligned */
+    .nearby-section { padding: var(--sp-lg) var(--sp-lg) 0; }
+    .nearby-cta {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: var(--sp-md); background: var(--glass);
+      border: 1.5px solid var(--glass-border-strong); border-radius: 20px;
+      padding: 18px 20px; cursor: pointer; width: 100%;
+      text-align: left;                /* explicit left-align for all child text */
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      transition: background .18s, border-color .18s, transform .14s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .nearby-cta:hover  { background: var(--glass-hover); border-color: var(--hi-border); }
+    .nearby-cta:active { background: var(--glass-active); transform: scale(.985); }
+    .nearby-cta-left { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 0; }
+    .nearby-cta-title { font-family: var(--ff-display); font-weight: 700; font-size: 17px; color: var(--text-primary); letter-spacing: -.3px; text-align: left; }
+    .nearby-cta-sub   { font-size: 14px; color: var(--text-secondary); text-align: left; }
+    .nearby-cta-arrow { font-size: 22px; color: var(--text-primary); flex-shrink: 0; opacity: .8; margin-left: auto; }
+
+    /* FOOTER */
+    .app-footer { padding: var(--sp-lg) var(--sp-lg) calc(var(--safe-b) + var(--sp-xl)); text-align: center; }
+    .footer-text { font-size: 12px; color: var(--text-muted); letter-spacing: .2px; line-height: 1.8; }
+    .footer-text a { color: var(--text-muted); text-decoration: none; border-bottom: 1px solid rgba(255,255,255,.2); transition: color .18s, border-color .18s; }
+    .footer-text a:hover { color: var(--text-primary); border-color: rgba(255,255,255,.5); }
+    .footer-heart { display: inline-block; animation: heartbeat 2.4s ease-in-out infinite; }
+    .footer-divider { opacity: .4; margin: 0 6px; }
+
+    /* NEARBY SCREEN */
+    #screen-nearby {
+      padding: calc(var(--safe-t) + var(--sp-md)) 0 calc(var(--safe-b) + var(--sp-lg));
+      overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior-y: contain;
+    }
+    .nearby-header { display: flex; align-items: center; gap: var(--sp-md); padding: 0 var(--sp-lg) var(--sp-md); }
+    .nearby-title { font-family: var(--ff-display); font-weight: 800; font-size: 24px; color: var(--text-primary); letter-spacing: -.5px; }
+    .nearby-cards { padding: 0 var(--sp-lg); display: flex; flex-direction: column; gap: 10px; }
+    .nearby-card {
+      background: var(--glass); border: 1px solid var(--glass-border);
+      border-radius: 20px; padding: 16px 18px;
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      display: flex; align-items: center; gap: var(--sp-md);
+    }
+    .nearby-card.best { background: var(--hi-bg); border-color: var(--hi-border); }
+    .nearby-card-icon { font-size: 36px; flex-shrink: 0; line-height: 1; display: flex; align-items: center; align-self: center; width: 44px; text-align: center; }
+    .nearby-card-info { flex: 1; min-width: 0; }
+    .nearby-card-name { font-family: var(--ff-display); font-weight: 700; font-size: 18px; color: var(--text-primary); letter-spacing: -.3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .nearby-card-meta { font-size: 14px; color: var(--text-muted); margin-top: 2px; }
+    .nearby-card-status { font-size: 14px; font-weight: 600; color: var(--text-secondary); margin-top: 5px; }
+    .directions-btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      background: var(--glass); border: 1px solid var(--glass-border-strong);
+      border-radius: 12px; padding: 0 14px; height: var(--touch); min-width: 44px;
+      font-size: 13px; font-weight: 600; color: var(--text-primary);
+      cursor: pointer; text-decoration: none; flex-shrink: 0; font-family: var(--ff-body);
+      white-space: nowrap; transition: background .18s, border-color .18s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .directions-btn:hover  { background: var(--glass-hover); border-color: var(--hi-border); }
+    .directions-btn:active { background: var(--glass-active); }
+    .nearby-footer { text-align: center; padding: var(--sp-md) var(--sp-lg) 0; font-size: 14px; color: var(--text-muted); }
+
+    /* No sunshine quote card */
+    .no-sun-card {
+      background: var(--glass); border: 1px solid var(--glass-border);
+      border-radius: 20px; padding: 24px 22px;
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      text-align: center; display: flex; flex-direction: column; align-items: center; gap: 10px;
+    }
+    .no-sun-icon { font-size: 48px; line-height: 1; }
+    .no-sun-quote {
+      font-family: var(--ff-display); font-size: 17px; font-weight: 700;
+      color: var(--text-primary); line-height: 1.45; letter-spacing: -.2px;
+      font-style: italic; max-width: 280px;
+    }
+    .no-sun-author { font-size: 13px; color: var(--text-muted); font-weight: 600; letter-spacing: .5px; }
+    .no-sun-sub { font-size: 13px; color: var(--text-muted); line-height: 1.5; max-width: 260px; margin-top: 4px; }
+    /* Dim the card list below the quote */
+    .nearby-cards-dim { display: flex; flex-direction: column; gap: 10px; opacity: .55; }
+    .nearby-loading { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 64px var(--sp-lg); gap: var(--sp-md); }
+    .nearby-loading-spinner { font-size: 48px; animation: spin 2s linear infinite; }
+    .nearby-loading span { font-size: 16px; color: var(--text-secondary); text-align: center; }
+
+    /* SEARCH SCREEN */
+    #screen-search {
+      padding: calc(var(--safe-t) + var(--sp-lg)) var(--sp-lg) calc(var(--safe-b) + var(--sp-lg));
+      overflow-y: auto; -webkit-overflow-scrolling: touch;
+    }
+    .search-header { display: flex; align-items: center; gap: var(--sp-md); margin-bottom: var(--sp-md); }
+    .search-title { font-family: var(--ff-display); font-weight: 800; font-size: 26px; color: var(--text-primary); letter-spacing: -.5px; line-height: var(--touch); }
+
+    /* City quick-pick chips */
+    .city-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: var(--sp-md); }
+    .city-chip {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: var(--glass); border: 1px solid var(--glass-border);
+      border-radius: 100px; padding: 8px 14px;
+      font-size: 13px; font-weight: 500; color: var(--text-secondary);
+      cursor: pointer; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      transition: background .18s, border-color .18s, color .18s;
+      -webkit-tap-highlight-color: transparent; white-space: nowrap;
+    }
+    .city-chip:hover  { background: var(--glass-hover); border-color: var(--glass-border-strong); color: var(--text-primary); }
+    .city-chip:active { background: var(--glass-active); }
+
+    .search-input-wrap { position: relative; margin-bottom: var(--sp-md); }
+    .search-input {
+      display: block; width: 100%; height: 54px; padding: 0 56px 0 18px;
+      border-radius: 16px; border: 1.5px solid var(--glass-border-strong);
+      background: var(--glass); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      font-family: var(--ff-body); font-size: 17px; font-weight: 500; line-height: 54px;
+      color: var(--text-primary); outline: none; transition: border-color .2s, background .2s;
+      -webkit-appearance: none; appearance: none;
+    }
+    .search-input::-webkit-search-cancel-button { -webkit-appearance: none; display: none; }
+    .search-input::placeholder { color: var(--text-muted); }
+    .search-input:focus { border-color: var(--hi-border); background: var(--glass-hover); }
+    .search-go {
+      position: absolute; right: 7px; top: 50%; transform: translateY(-50%);
+      background: rgba(255,255,255,.18); border: 1px solid var(--glass-border-strong);
+      border-radius: 10px; width: 40px; height: 40px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; color: var(--text-primary); font-size: 18px; line-height: 1;
+      transition: background .18s; flex-shrink: 0;
+    }
+    .search-go:hover  { background: rgba(255,255,255,.28); }
+    .search-go:active { background: rgba(255,255,255,.38); }
+    .search-results { display: flex; flex-direction: column; gap: 8px; }
+    .search-empty { text-align: center; padding: var(--sp-xl); color: var(--text-muted); font-size: 16px; line-height: 1.55; }
+    .search-result-item {
+      background: var(--glass); border: 1px solid var(--glass-border);
+      border-radius: 16px; min-height: 62px; padding: 12px 18px;
+      display: flex; align-items: center; gap: 12px;
+      cursor: pointer; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      transition: background .18s, border-color .18s; -webkit-tap-highlight-color: transparent;
+    }
+    .search-result-item:hover  { background: var(--glass-hover); border-color: var(--glass-border-strong); }
+    .search-result-item:active { background: var(--glass-active); }
+    .result-pin  { font-size: 18px; flex-shrink: 0; align-self: center; }
+    .result-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+    .result-name { font-size: 16px; font-weight: 600; color: var(--text-primary); }
+    .result-sub  { font-size: 13px; color: var(--text-muted); }
+
+    /* Recent searches */
+    .recents-section { margin-top: var(--sp-lg); }
+    .recents-section.hidden { display: none; }
+    .recents-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+    .recents-clear { background: none; border: none; cursor: pointer; font-family: var(--ff-body); font-size: 13px; font-weight: 600; color: var(--text-muted); padding: 4px 0; transition: color .18s; -webkit-tap-highlight-color: transparent; }
+    .recents-clear:hover { color: var(--text-primary); }
+    .recents-list { display: flex; flex-direction: column; gap: 6px; }
+    .recent-item {
+      background: var(--glass); border: 1px solid var(--glass-border);
+      border-radius: 14px; height: 52px; padding: 0 16px;
+      display: flex; align-items: center; gap: 12px;
+      cursor: pointer; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      transition: background .18s, border-color .18s; -webkit-tap-highlight-color: transparent;
+    }
+    .recent-item:hover  { background: var(--glass-hover); border-color: var(--glass-border-strong); }
+    .recent-item:active { background: var(--glass-active); }
+    .recent-icon { font-size: 16px; flex-shrink: 0; opacity: .7; }
+    .recent-info { flex: 1; min-width: 0; }
+    .recent-name { font-size: 15px; font-weight: 600; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .recent-remove { background: none; border: none; cursor: pointer; font-size: 16px; color: var(--text-muted); padding: 8px; line-height: 1; flex-shrink: 0; border-radius: 8px; transition: color .18s, background .18s; -webkit-tap-highlight-color: transparent; }
+    .recent-remove:hover { color: var(--text-primary); background: var(--glass-hover); }
+
+    /* ERROR SCREEN */
+    #screen-error { align-items: center; justify-content: center; text-align: center; padding: calc(var(--safe-t) + 48px) var(--sp-xl) calc(var(--safe-b) + 48px); gap: var(--sp-md); }
+    .error-icon  { font-size: 76px; line-height: 1; }
+    .error-title { font-family: var(--ff-display); font-weight: 800; font-size: 30px; color: var(--text-primary); letter-spacing: -.6px; }
+    .error-sub   { font-size: 16px; color: var(--text-secondary); max-width: 280px; line-height: 1.55; }
+
+    /* INSTALL BANNER */
+    #install-banner {
+      position: fixed; bottom: calc(var(--safe-b) + var(--sp-md)); left: var(--sp-md); right: var(--sp-md);
+      background: rgba(0,0,0,.62); border: 1px solid var(--glass-border-strong);
+      border-radius: 20px; padding: 14px var(--sp-md);
+      backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+      display: flex; align-items: center; gap: var(--sp-md);
+      z-index: 300; box-shadow: 0 8px 32px rgba(0,0,0,.4);
+      opacity: 0; transform: translateY(16px); transition: opacity .4s ease, transform .4s ease; pointer-events: none;
+    }
+    #install-banner.visible { opacity: 1; transform: translateY(0); pointer-events: all; }
+    .install-icon { font-size: 32px; flex-shrink: 0; }
+    .install-text { flex: 1; min-width: 0; }
+    .install-text strong { display: block; font-family: var(--ff-display); font-size: 15px; font-weight: 700; color: var(--text-primary); }
+    .install-text span   { font-size: 13px; color: var(--text-muted); }
+    .install-actions { display: flex; gap: 6px; flex-shrink: 0; }
+    .install-btn { display: inline-flex; align-items: center; justify-content: center; height: 38px; padding: 0 14px; border-radius: 10px; border: none; font-family: var(--ff-body); font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; transition: opacity .18s; }
+    .install-btn:hover { opacity: .88; }
+    .install-btn-yes { background: #fff; color: #7a2e00; }
+    .install-btn-no  { background: rgba(255,255,255,.14); color: var(--text-primary); border: 1px solid var(--glass-border) !important; }
+
+    /* DESKTOP CENTERING */
+    @media (min-width: 500px) {
+      .screen { transform: translateX(-50%) translateY(10px); left: 50%; right: auto; width: 100%; max-width: 460px; }
+      .screen.active { transform: translateX(-50%) translateY(0); }
+      @media (prefers-reduced-motion: reduce) { .screen, .screen.active { transform: translateX(-50%) !important; } }
+      #install-banner { max-width: 460px; left: 50%; right: auto; transform: translateX(-50%) translateY(16px); }
+      #install-banner.visible { transform: translateX(-50%) translateY(0); }
+    }
+    @media (pointer: fine) {
+      .hourly-wrap { cursor: grab; }
+      .hourly-wrap.dragging { cursor: grabbing; user-select: none; }
+    }
+  </style>
+</head>
+<body>
+
+<a class="skip-link" href="#main-status">Skip to sun status</a>
+<div id="app" role="application" aria-label="SunChaser weather app">
+
+  <!-- PERMISSION -->
+  <main id="screen-permission" class="screen active" aria-labelledby="perm-heading">
+    <div class="perm-icon" aria-hidden="true">☀️</div>
+    <h1 class="perm-title" id="perm-heading">Find your<br>sunshine</h1>
+    <p class="perm-sub">SunChaser tells you if there's sun where you are — and finds it nearby when there isn't.</p>
+    <button class="saved-chip hidden" id="saved-chip" onclick="loadSavedLocation()" aria-label="Continue with saved location">
+      <span aria-hidden="true">📍</span><span id="saved-chip-name">Last location</span>
+    </button>
+    <button class="btn btn-primary" onclick="requestLocation()">📍 Use My Location</button>
+    <button class="btn btn-secondary" onclick="showSearchScreen()">Search a city instead</button>
+  </main>
+
+  <!-- LOADING -->
+  <main id="screen-loading" class="screen" aria-live="polite" aria-label="Loading">
+    <div class="loading-sun anim-sun" aria-hidden="true">☀️</div>
+    <p class="loading-text">Finding your sunshine…</p>
+    <p class="loading-sub" id="loading-sub">Checking the skies above you</p>
+  </main>
+
+  <!-- MAIN -->
+  <main id="screen-main" class="screen">
+    <header class="header">
+      <span class="app-name">SunChaser</span>
+      <button class="location-pill" id="location-btn" onclick="showSearchScreen()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+          <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+          <circle cx="12" cy="9" r="2.5"/>
+        </svg>
+        <span id="location-name">Loading…</span>
+      </button>
+    </header>
+
+    <section class="hero" aria-label="Current sun status">
+      <span class="sun-icon" id="main-icon" aria-hidden="true">🌤️</span>
+      <h1 class="hero-status" id="main-status" aria-live="polite" aria-atomic="true">Checking…</h1>
+      <p class="hero-sub" id="main-sub" aria-live="polite">Just a moment</p>
+      <div class="best-window hidden" id="best-window" role="status">
+        <span aria-hidden="true">✨</span><span id="best-window-text">Best sun: —</span>
+      </div>
+      <div class="stale-badge" id="stale-badge" role="status">
+        <span aria-hidden="true">⏱</span><span id="stale-text">Cached data</span>
+      </div>
+    </section>
+
+    <!-- HOURLY FORECAST with scroll-fade hints -->
+    <div class="hourly-section">
+      <div class="hourly-section-header">
+        <div class="section-label" style="margin-bottom:0" id="forecast-label">Today's forecast</div>
+      </div>
+      <div class="hourly-outer at-start at-end" id="hourly-outer">
+        <div class="hourly-wrap" id="hourly-wrap"
+          role="region" aria-labelledby="forecast-label"
+          aria-label="Hourly sun forecast — swipe to scroll"
+          tabindex="0">
+          <div class="hourly-strip" id="hourly-strip" role="list"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FIND SUN NEARBY — full-width inside padding -->
+    <div class="nearby-section">
+      <button class="nearby-cta" onclick="loadNearby()" aria-label="Find sun nearby — search within 50 km">
+        <div class="nearby-cta-left">
+          <div class="nearby-cta-title">☀️ Find Sun Nearby</div>
+          <div class="nearby-cta-sub">Search within ~50 km for sunshine</div>
+        </div>
+        <span class="nearby-cta-arrow" aria-hidden="true">→</span>
+      </button>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="app-footer" aria-label="About SunChaser">
+      <p class="footer-text">
+        Made with <span class="footer-heart" aria-label="love">❤️</span> in Munich
+        <span class="footer-divider">·</span>
+        Data by <a href="https://open-meteo.com" target="_blank" rel="noopener noreferrer">Open-Meteo</a>
+        <span class="footer-divider">·</span>
+        <a href="https://sunchaser.pages.dev" target="_blank" rel="noopener noreferrer">sunchaser.pages.dev</a>
+      </p>
+    </footer>
+  </main>
+
+  <!-- NEARBY -->
+  <main id="screen-nearby" class="screen" aria-labelledby="nearby-heading">
+    <header class="nearby-header">
+      <button class="back-btn" onclick="showScreen('main')" aria-label="Back to main screen"><span aria-hidden="true">←</span></button>
+      <h1 class="nearby-title" id="nearby-heading">Sun Near You</h1>
+    </header>
+    <div class="nearby-cards" id="nearby-cards" role="list" aria-label="Nearby locations">
+      <div class="nearby-loading" role="status" aria-live="polite">
+        <div class="nearby-loading-spinner" aria-hidden="true">☀️</div>
+        <span>Scanning nearby skies…</span>
+      </div>
+    </div>
+    <p class="nearby-footer" id="nearby-footer" aria-live="polite"></p>
+  </main>
+
+  <!-- SEARCH -->
+  <main id="screen-search" class="screen" aria-labelledby="search-heading">
+    <header class="search-header">
+      <button class="back-btn" id="search-back-btn" onclick="goBackFromSearch()" aria-label="Go back"><span aria-hidden="true">←</span></button>
+      <h1 class="search-title" id="search-heading">Search city</h1>
+    </header>
+
+    <!-- Quick-pick city chips -->
+    <div class="city-chips" role="list" aria-label="Popular cities">
+      <button class="city-chip" role="listitem" onclick="selectCity(48.1351,11.5820,'Munich')">🇩🇪 Munich</button>
+      <button class="city-chip" role="listitem" onclick="selectCity(48.8566,2.3522,'Paris')">🇫🇷 Paris</button>
+      <button class="city-chip" role="listitem" onclick="selectCity(51.5074,-0.1278,'London')">🇬🇧 London</button>
+      <button class="city-chip" role="listitem" onclick="selectCity(40.7128,-74.0060,'New York')">🇺🇸 New York</button>
+      <button class="city-chip" role="listitem" onclick="selectCity(35.6762,139.6503,'Tokyo')">🇯🇵 Tokyo</button>
+      <button class="city-chip" role="listitem" onclick="selectCity(25.2048,55.2708,'Dubai')">🇦🇪 Dubai</button>
+    </div>
+
+    <div class="search-input-wrap" role="search" aria-label="City search">
+      <input id="search-input" class="search-input" type="search" inputmode="search"
+        placeholder="Try &quot;Berlin&quot;, &quot;Sydney&quot;, &quot;Lisbon&quot;…"
+        autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+        aria-label="Enter a city name" aria-autocomplete="list" aria-controls="search-results"
+        oninput="searchCities(this.value)"
+        onkeydown="if(event.key==='Enter') searchCities(this.value, true)" />
+      <button class="search-go" onclick="searchCities(document.getElementById('search-input').value,true)" aria-label="Search">→</button>
+    </div>
+
+    <div id="search-results" class="search-results" role="listbox" aria-label="City results" aria-live="polite"></div>
+
+    <div id="recents-section" class="recents-section hidden" aria-label="Recent searches">
+      <div class="recents-header">
+        <span class="section-label" style="margin-bottom:0">Recent</span>
+        <button class="recents-clear" onclick="clearRecents()" aria-label="Clear recent searches">Clear all</button>
+      </div>
+      <div id="recents-list" class="recents-list" role="list"></div>
+    </div>
+  </main>
+
+  <!-- ERROR -->
+  <main id="screen-error" class="screen" role="alert" aria-labelledby="error-heading">
+    <div class="error-icon" id="error-icon" aria-hidden="true">☁️</div>
+    <h1 class="error-title" id="error-heading">Something went wrong</h1>
+    <p class="error-sub" id="error-msg">We couldn't reach weather data.</p>
+    <button class="btn btn-primary" style="margin-top:8px" onclick="retryFromError()">Try Again</button>
+    <button class="btn btn-secondary" onclick="showSearchScreen()">Search a city instead</button>
+  </main>
+
+</div>
+
+<!-- INSTALL BANNER -->
+<aside id="install-banner" aria-hidden="true" role="dialog" aria-label="Install SunChaser">
+  <div class="install-icon" aria-hidden="true">☀️</div>
+  <div class="install-text">
+    <strong>Install SunChaser</strong>
+    <span>Add to your home screen</span>
+  </div>
+  <div class="install-actions">
+    <button class="install-btn install-btn-yes" onclick="installApp()">Install</button>
+    <button class="install-btn install-btn-no" onclick="dismissInstall()" aria-label="Dismiss">✕</button>
+  </div>
+</aside>
+
+<script>
+// STATE
+const state = { lat:null, lng:null, locationName:null, weather:null, hourly:[], screen:'permission' };
+let deferredInstall=null, searchTimer=null;
+
+// NAVIGATION
+function showScreen(name) {
+  document.querySelectorAll('.screen').forEach(s => { s.classList.remove('active'); s.setAttribute('aria-hidden','true'); });
+  const el = document.getElementById('screen-'+name); if (!el) return;
+  el.classList.add('active'); el.removeAttribute('aria-hidden'); state.screen = name;
+  if (name==='search') {
+    document.getElementById('search-back-btn').style.visibility = state.weather ? 'visible' : 'hidden';
+    setTimeout(() => document.getElementById('search-input').focus({preventScroll:true}), 360);
+  }
+}
+function goBackFromSearch() {
+  document.getElementById('search-input').value='';
+  document.getElementById('search-results').innerHTML='';
+  showScreen(state.weather ? 'main' : 'permission');
+}
+function showSearchScreen() { showScreen('search'); renderRecents(); }
+document.addEventListener('keydown', e => {
+  if (e.key==='Escape' && (state.screen==='nearby'||state.screen==='search')) showScreen(state.weather?'main':'permission');
+});
+
+// GEOLOCATION
+function requestLocation() {
+  showScreen('loading');
+  if (!navigator.geolocation) { showError('location',"Your browser doesn't support geolocation."); return; }
+  navigator.geolocation.getCurrentPosition(
+    pos => {
+      state.lat=pos.coords.latitude; state.lng=pos.coords.longitude;
+      fetchWeather(state.lat, state.lng);
+      reverseGeocode(state.lat, state.lng, true);
+    },
+    () => {
+      const c=loadCache();
+      c ? applyWeatherData(c.weather,c.hourly,c.locationName,true)
+        : showError('location','Location access was denied. Search for a city instead.');
+    },
+    {timeout:10000, maximumAge:120000}
+  );
+}
+
+// GEOCODING
+async function reverseGeocode(lat, lng, saveAfter=false) {
+  try {
+    const r=await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`,{headers:{'Accept-Language':'en'}});
+    if (!r.ok) throw 0;
+    const d=await r.json(), a=d.address||{};
+    const name=a.city||a.town||a.village||a.municipality||a.county||'Your location';
+    setLocationName(name);
+    if (saveAfter) { saveLocation(lat,lng,name); saveRecent(lat,lng,name); }
+  } catch {
+    const name=`${lat.toFixed(2)}°, ${lng.toFixed(2)}°`;
+    setLocationName(name);
+    if (saveAfter) saveLocation(lat,lng,name);
+  }
+}
+function setLocationName(name) {
+  state.locationName=name;
+  document.getElementById('location-name').textContent=name;
+  document.getElementById('location-btn').setAttribute('aria-label',`Change location — current: ${name}`);
+  document.getElementById('nearby-heading').textContent=`Sun Near ${name}`;
+}
+async function searchCities(q, now=false) {
+  q=q.trim(); if (q.length<2) { document.getElementById('search-results').innerHTML=''; return; }
+  clearTimeout(searchTimer);
+  searchTimer=setTimeout(async()=>{
+    try {
+      const r=await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(q)}&count=6&language=en`);
+      if (!r.ok) throw 0;
+      renderSearchResults((await r.json()).results||[]);
+    } catch { document.getElementById('search-results').innerHTML='<div class="search-empty">Could not search right now.<br>Check your connection.</div>'; }
+  }, now?0:380);
+}
+function renderSearchResults(results) {
+  const box=document.getElementById('search-results');
+  if (!results.length) { box.innerHTML='<div class="search-empty">No cities found.<br>Try a different spelling.</div>'; return; }
+  box.innerHTML=results.map(r=>{
+    const sub=[r.admin1,r.country].filter(Boolean).join(', ');
+    return `<div class="search-result-item" role="option" tabindex="0"
+      aria-label="${esc(r.name)}${sub?', '+esc(sub):''}"
+      onclick="selectCity(${r.latitude},${r.longitude},'${esc(r.name)}')"
+      onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();selectCity(${r.latitude},${r.longitude},'${esc(r.name)}')}">
+      <span class="result-pin" aria-hidden="true">📍</span>
+      <div class="result-text">
+        <div class="result-name">${esc(r.name)}</div>
+        ${sub?`<div class="result-sub">${esc(sub)}</div>`:''}
+      </div></div>`;
+  }).join('');
+}
+function selectCity(lat, lng, name) {
+  state.lat=lat; state.lng=lng;
+  document.getElementById('search-input').value='';
+  document.getElementById('search-results').innerHTML='';
+  setLocationName(name); saveRecent(lat,lng,name); saveLocation(lat,lng,name);
+  showScreen('loading'); fetchWeather(lat,lng);
+}
+
+// WEATHER
+async function fetchWeather(lat, lng) {
+  document.getElementById('loading-sub').textContent='Checking the skies…';
+  try {
+    const r=await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&current=cloud_cover,precipitation,uv_index,is_day&hourly=cloud_cover,precipitation_probability&daily=sunrise,sunset&forecast_days=1&timezone=auto`);
+    if (!r.ok) throw 0;
+    const d=await r.json();
+    const weather={cloudCover:d.current.cloud_cover,precipitation:d.current.precipitation,uvIndex:d.current.uv_index,isDay:d.current.is_day,sunrise:d.daily.sunrise[0],sunset:d.daily.sunset[0]};
+    const hourly=d.hourly.time.map((t,i)=>({time:t,cloudCover:d.hourly.cloud_cover[i],precipProb:d.hourly.precipitation_probability[i]}));
+    saveCache(weather,hourly,state.locationName);
+    applyWeatherData(weather,hourly,state.locationName,false);
+  } catch {
+    const c=loadCache();
+    c ? applyWeatherData(c.weather,c.hourly,c.locationName,true)
+      : showError('api','Could not load weather data. Check your connection.');
+  }
+}
+
+// SUN SCORING
+function sunScore(cc,precip=0) { let s=100-cc; if(precip>40)s-=30; return Math.max(0,Math.min(100,s)); }
+function toStatus(score,isDay) {
+  if(!isDay)    return {icon:'🌙', label:'Night time',   sub:'The sun is down',            cls:'anim-moon',grad:'var(--grad-night)'   };
+  if(score>=75) return {icon:'☀️', label:'Sun now',      sub:'Clear skies',                cls:'anim-sun', grad:'var(--grad-sunny)'   };
+  if(score>=50) return {icon:'⛅', label:'Partly sunny', sub:'Some patches of sun',        cls:'',         grad:'var(--grad-partly)'  };
+  if(score>=25) return {icon:'🌥️',label:'Mostly cloudy',sub:'Little sun getting through', cls:'',         grad:'var(--grad-cloudy)'  };
+  return              {icon:'☁️', label:'Overcast',     sub:'Thick cloud cover',          cls:'',         grad:'var(--grad-overcast)'};
+}
+function ccToIcon(cc,pp=0) { if(pp>50)return'🌧️'; const s=sunScore(cc,pp); return s>=75?'☀️':s>=50?'⛅':s>=25?'🌥️':'☁️'; }
+function bestWindow(hourly) {
+  const scored=hourly.filter(h=>{const hr=new Date(h.time).getHours();return hr>=6&&hr<=21;}).map(h=>({...h,s:sunScore(h.cloudCover,h.precipProb)}));
+  let best=0,bStart=null,bEnd=null,rStart=null,rLen=0;
+  scored.forEach((h,i)=>{if(h.s>=60){if(rStart===null){rStart=i;rLen=1;}else rLen++;if(rLen>best){best=rLen;bStart=rStart;bEnd=i;}}else{rStart=null;rLen=0;}});
+  if(!best)return null;
+  const fmt=t=>{const h=new Date(t).getHours();return h===0?'12am':h<12?`${h}am`:h===12?'12pm':`${h-12}pm`;};
+  return bStart===bEnd?fmt(scored[bStart].time):`${fmt(scored[bStart].time)} – ${fmt(scored[bEnd].time)}`;
+}
+
+// APPLY DATA → UI
+function applyWeatherData(weather,hourly,locName,fromCache) {
+  state.weather=weather; state.hourly=hourly;
+  if(locName) setLocationName(locName);
+  const score=sunScore(weather.cloudCover,weather.precipitation>0?80:0);
+  const status=toStatus(score,weather.isDay);
+  document.body.style.background=status.grad;
+  const tc=status.grad.includes('sunny')?'#9e4e08':status.grad.includes('partly')?'#0e3a6e':status.grad.includes('night')?'#060a14':'#1e2c38';
+  document.getElementById('theme-meta').content=tc;
+  const icon=document.getElementById('main-icon');
+  icon.textContent=status.icon; icon.className=`sun-icon ${status.cls}`;
+  document.getElementById('main-status').textContent=status.label;
+  document.getElementById('main-sub').textContent=!weather.isDay?`Sun rises at ${fmtTime(weather.sunrise)}`:`Cloud cover: ${weather.cloudCover}%  ·  Sets ${fmtTime(weather.sunset)}`;
+  const bwEl=document.getElementById('best-window');
+  if(weather.isDay){
+    const w=bestWindow(hourly);
+    document.getElementById('best-window-text').textContent=w?`Best sun: ${w}`:'No clear windows today';
+    bwEl.classList.remove('hidden');
+  } else {
+    // At night show tomorrow's best sun window from today's hourly data
+    const w=bestWindow(hourly);
+    document.getElementById('best-window-text').textContent=w?`Best sun tomorrow: ${w}`:'Check back tomorrow';
+    bwEl.classList.remove('hidden');
+  }
+  const sb=document.getElementById('stale-badge');
+  if(fromCache){const ts=loadCacheTimestamp(),m=ts?Math.round((Date.now()-ts)/60000):null;document.getElementById('stale-text').textContent=m!=null?`Cached · ${m} min ago`:'Showing cached data';sb.classList.add('visible');}
+  else sb.classList.remove('visible');
+  renderHourly(hourly); showScreen('main'); scheduleInstall();
+}
+function fmtTime(iso){if(!iso)return'';try{const d=new Date(iso),h=d.getHours(),m=d.getMinutes();return`${h%12||12}:${String(m).padStart(2,'0')}${h>=12?'pm':'am'}`;}catch{return'';}}
+
+// HOURLY STRIP + SCROLL FADE
+function renderHourly(hourly) {
+  const nowH=new Date().getHours();
+  const strip=document.getElementById('hourly-strip');
+  const items=hourly.filter(h=>{const diff=(new Date(h.time).getHours()-nowH+24)%24;return diff<13||diff>20;}).slice(0,18);
+  strip.innerHTML=items.map(h=>{
+    const hr=new Date(h.time).getHours(), cur=hr===nowH;
+    const lbl=cur?'Now':hr===0?'12am':hr<12?`${hr}am`:hr===12?'12pm':`${hr-12}pm`;
+    const ico=ccToIcon(h.cloudCover,h.precipProb);
+    const pct=`${Math.round(sunScore(h.cloudCover,h.precipProb))}%`;
+    return `<div class="hourly-item${cur?' current':''}" role="listitem" aria-label="${lbl}: ${ico} sun ${pct}">
+      <div class="hourly-time">${lbl}</div>
+      <div class="hourly-icon" aria-hidden="true">${ico}</div>
+      <div class="hourly-pct">${pct}</div></div>`;
+  }).join('');
+
+  setTimeout(()=>{
+    const wrap=document.getElementById('hourly-wrap');
+    const cur=strip.querySelector('.current');
+    if(cur) wrap.scrollLeft=Math.max(0,cur.offsetLeft-wrap.offsetWidth/2+cur.offsetWidth/2);
+    updateScrollFade();
+  },120);
+  document.getElementById('hourly-wrap').addEventListener('scroll', updateScrollFade, {passive:true});
+}
+function updateScrollFade() {
+  const wrap=document.getElementById('hourly-wrap'), outer=document.getElementById('hourly-outer');
+  if(!wrap||!outer) return;
+  outer.classList.toggle('at-start', wrap.scrollLeft<=4);
+  outer.classList.toggle('at-end',   wrap.scrollLeft>=wrap.scrollWidth-wrap.clientWidth-4);
+}
+
+// FIND SUN NEARBY
+async function loadNearby() {
+  showScreen('nearby');
+  document.getElementById('nearby-cards').innerHTML=`<div class="nearby-loading" role="status" aria-live="polite"><div class="nearby-loading-spinner" aria-hidden="true">☀️</div><span>Scanning nearby skies…</span></div>`;
+  document.getElementById('nearby-footer').textContent='';
+  if(!state.lat||!state.lng){document.getElementById('nearby-cards').innerHTML='<div class="nearby-loading"><span>Location unavailable. Please search for a city first.</span></div>';return;}
+  // Sample 3 rings × 8 directions = 24 points → show the closest sunny ones
+  const RINGS=[15,30,50], R=6371, toR=d=>d*Math.PI/180, toD=r=>r*180/Math.PI;
+  const BEARINGS=[0,45,90,135,180,225,270,315], LABELS=['N','NE','E','SE','S','SW','W','NW'];
+  const pts=[];
+  RINGS.forEach(km=>{
+    BEARINGS.forEach((b,bi)=>{
+      const br=toR(b),lr=toR(state.lat),d=km/R;
+      const nLat=Math.asin(Math.sin(lr)*Math.cos(d)+Math.cos(lr)*Math.sin(d)*Math.cos(br));
+      const nLng=toR(state.lng)+Math.atan2(Math.sin(br)*Math.sin(d)*Math.cos(lr),Math.cos(d)-Math.sin(lr)*Math.sin(nLat));
+      pts.push({lat:toD(nLat),lng:toD(nLng),bearing:b,dist:km,label:LABELS[bi]});
+    });
+  });
+  try {
+    const url=`https://api.open-meteo.com/v1/forecast?latitude=${pts.map(p=>p.lat).join(',')}&longitude=${pts.map(p=>p.lng).join(',')}&current=cloud_cover,precipitation,is_day&timezone=auto`;
+    const r=await fetch(url); if(!r.ok)throw 0;
+    const data=await r.json(), results=Array.isArray(data)?data:[data];
+
+    // Score all 24 points
+    const scored=results.map((d,i)=>({
+      ...pts[i],
+      cloudCover:d.current.cloud_cover, isDay:d.current.is_day,
+      score:sunScore(d.current.cloud_cover,d.current.precipitation>0?80:0)
+    }));
+
+    // For each of the 8 directions, keep only the closest point that has the best score
+    // Strategy: sort by score desc, then dist asc — pick best per direction, dedupe, take top 4
+    const byDir={};
+    scored.forEach(p=>{
+      const key=p.bearing;
+      if(!byDir[key]||p.score>byDir[key].score||(p.score===byDir[key].score&&p.dist<byDir[key].dist))
+        byDir[key]=p;
+    });
+    const top4=Object.values(byDir).sort((a,b)=>b.score-a.score||a.dist-b.dist).slice(0,4);
+
+    const names=await Promise.allSettled(top4.map(p=>revGeoNearby(p.lat,p.lng)));
+    top4.forEach((p,i)=>{p.name=names[i].status==='fulfilled'?names[i].value:`${p.label} of ${state.locationName||'here'}`;});
+    renderNearbyCards(top4);
+  } catch { document.getElementById('nearby-cards').innerHTML='<div class="nearby-loading" role="alert"><span>Could not load nearby data. Check your connection.</span></div>'; }
+}
+async function revGeoNearby(lat,lng){const r=await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`,{headers:{'Accept-Language':'en'}});const d=await r.json(),a=d.address||{};return a.city||a.town||a.village||a.municipality||a.county||`${lat.toFixed(1)}°`;}
+function renderNearbyCards(pts) {
+  const box=document.getElementById('nearby-cards');
+  if(!pts.length){box.innerHTML='<div class="nearby-loading"><span>No nearby locations found.</span></div>';return;}
+
+  const bestScore = pts[0].score;
+  const allNight  = pts.every(p=>!p.isDay);
+  const noSun     = bestScore < 40; // includes night and heavy overcast
+
+  if (noSun) {
+    const nightQuotes = [
+      { text: "Even the darkest night will end and the sun will rise.", author: "Victor Hugo" },
+      { text: "The sun will rise and we will try again.", author: "Tyler the Creator" },
+      { text: "How glorious a greeting the sun gives the mountains!", author: "John Muir" },
+      { text: "Rest is not idleness — enjoy the quiet of the night.", author: "John Lubbock" },
+    ];
+    const cloudQuotes = [
+      { text: "Keep your face to the sunshine and you cannot see the shadow.", author: "Helen Keller" },
+      { text: "Behind every cloud is another cloud.", author: "Judy Garland" },
+      { text: "A day without sunshine is like, you know, night.", author: "Steve Martin" },
+      { text: "Clouds come floating into my life to add colour to my sunset sky.", author: "Rabindranath Tagore" },
+    ];
+    const pool = allNight ? nightQuotes : cloudQuotes;
+    const q = pool[Math.floor(Math.random()*pool.length)];
+    const icon = allNight ? '🌙' : '☁️';
+    const msg  = allNight
+      ? `It's night time within 50 km. Check back when the sun rises.`
+      : `No sunshine found within 50 km right now.`;
+    box.innerHTML = `
+      <div class="no-sun-card">
+        <div class="no-sun-icon" aria-hidden="true">${icon}</div>
+        <p class="no-sun-quote">"${q.text}"</p>
+        <p class="no-sun-author">— ${q.author}</p>
+        <p class="no-sun-sub">${msg}</p>
+      </div>`;
+    document.getElementById('nearby-footer').textContent='';
+    return;
+  }
+
+  // Only sunny/partly-sunny results shown
+  const sunnyOnly = pts.filter(p=>p.score>=40);
+  box.innerHTML=sunnyOnly.map((p,i)=>{
+    const s=toStatus(p.score,p.isDay),best=i===0;
+    const map=`https://www.google.com/maps/dir/?api=1&destination=${p.lat},${p.lng}`;
+    return `<article class="nearby-card${best?' best':''}" role="listitem" aria-label="${esc(p.name)}: ${s.label}, ${p.dist} km ${p.label}">
+      <div class="nearby-card-icon" aria-hidden="true">${s.icon}</div>
+      <div class="nearby-card-info">
+        <div class="nearby-card-name">${esc(p.name)}</div>
+        <div class="nearby-card-meta">${p.label} · ~${p.dist} km away</div>
+        <div class="nearby-card-status">${s.label}${best?' · Sunniest nearby':''}</div>
+      </div>
+      <a class="directions-btn" href="${map}" target="_blank" rel="noopener noreferrer" aria-label="Directions to ${esc(p.name)}">Directions</a>
+    </article>`;
+  }).join('');
+  document.getElementById('nearby-footer').textContent=`Found ${sunnyOnly.length} sunny spot${sunnyOnly.length!==1?'s':''} within 50 km`;
+}
+
+// ERROR
+function showError(type,msg) {
+  const icons={location:'📍',api:'☁️',generic:'⚠️'},titles={location:'Location needed',api:"Can't reach weather data",generic:'Something went wrong'};
+  document.getElementById('error-icon').textContent=icons[type]||'⚠️';
+  document.getElementById('error-heading').textContent=titles[type]||'Error';
+  document.getElementById('error-msg').textContent=msg; showScreen('error');
+}
+function retryFromError(){(state.lat&&state.lng)?(showScreen('loading'),fetchWeather(state.lat,state.lng)):requestLocation();}
+
+// STORAGE — CACHE
+const CK='sc_v2',TTL=4*60*60*1000;
+function saveCache(w,h,n){try{localStorage.setItem(CK,JSON.stringify({weather:w,hourly:h,locationName:n,ts:Date.now()}));}catch{}}
+function loadCache(){try{const d=JSON.parse(localStorage.getItem(CK)||'null');return d&&(Date.now()-d.ts<TTL)?d:null;}catch{return null;}}
+function loadCacheTimestamp(){try{return JSON.parse(localStorage.getItem(CK)||'null')?.ts||null;}catch{return null;}}
+
+// STORAGE — SAVED LOCATION
+const SK='sc_saved_loc';
+function saveLocation(lat,lng,name){try{localStorage.setItem(SK,JSON.stringify({lat,lng,name,ts:Date.now()}));}catch{}}
+function getSavedLocation(){try{return JSON.parse(localStorage.getItem(SK)||'null');}catch{return null;}}
+function loadSavedLocation(){const d=getSavedLocation();if(!d)return;state.lat=d.lat;state.lng=d.lng;setLocationName(d.name);showScreen('loading');fetchWeather(d.lat,d.lng);}
+
+// STORAGE — RECENT SEARCHES
+const RK='sc_recents',MAX_R=5;
+function saveRecent(lat,lng,name){try{let l=getRecents().filter(r=>r.name!==name);l.unshift({lat,lng,name,ts:Date.now()});localStorage.setItem(RK,JSON.stringify(l.slice(0,MAX_R)));}catch{}}
+function getRecents(){try{return JSON.parse(localStorage.getItem(RK)||'[]');}catch{return[];}}
+function removeRecent(name){try{localStorage.setItem(RK,JSON.stringify(getRecents().filter(r=>r.name!==name)));renderRecents();}catch{}}
+function clearRecents(){try{localStorage.removeItem(RK);renderRecents();}catch{}}
+function renderRecents(){
+  const section=document.getElementById('recents-section'),list=document.getElementById('recents-list'),recents=getRecents();
+  if(!recents.length){section.classList.add('hidden');return;}
+  section.classList.remove('hidden');
+  list.innerHTML=recents.map(r=>`<div class="recent-item" role="listitem" tabindex="0" aria-label="${esc(r.name)}" onclick="selectCity(${r.lat},${r.lng},'${esc(r.name)}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();selectCity(${r.lat},${r.lng},'${esc(r.name)}')}"><span class="recent-icon" aria-hidden="true">🕐</span><div class="recent-info"><div class="recent-name">${esc(r.name)}</div></div><button class="recent-remove" onclick="event.stopPropagation();removeRecent('${esc(r.name)}')" aria-label="Remove ${esc(r.name)}">✕</button></div>`).join('');
+}
+
+// PWA INSTALL
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstall=e;});
+function scheduleInstall(){if(sessionStorage.getItem('sc_install_dismissed')||!deferredInstall)return;setTimeout(()=>{const b=document.getElementById('install-banner');b.classList.add('visible');b.removeAttribute('aria-hidden');},14000);}
+function installApp(){if(!deferredInstall)return;deferredInstall.prompt();deferredInstall.userChoice.then(()=>{dismissInstall();deferredInstall=null;});}
+function dismissInstall(){const b=document.getElementById('install-banner');b.classList.remove('visible');b.setAttribute('aria-hidden','true');sessionStorage.setItem('sc_install_dismissed','1');}
+
+// DRAG SCROLL (desktop)
+(function(){
+  const w=document.getElementById('hourly-wrap');let down=false,x0=0,sl=0;
+  w.addEventListener('mousedown',e=>{down=true;w.classList.add('dragging');x0=e.pageX-w.offsetLeft;sl=w.scrollLeft;});
+  document.addEventListener('mouseup',()=>{down=false;w.classList.remove('dragging');});
+  w.addEventListener('mousemove',e=>{if(!down)return;e.preventDefault();w.scrollLeft=sl-(e.pageX-w.offsetLeft-x0);});
+})();
+
+// UTILS
+function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+
+// SERVICE WORKER
+if('serviceWorker' in navigator){
+  const sw=`const V='sc-v3';self.addEventListener('install',e=>{e.waitUntil(caches.open(V).then(c=>c.addAll(['./'])));self.skipWaiting();});self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==V).map(k=>caches.delete(k)))));self.clients.claim();});self.addEventListener('fetch',e=>{const h=new URL(e.request.url).hostname;if(h.includes('open-meteo')||h.includes('nominatim')||h.includes('geocoding')){e.respondWith(fetch(e.request).catch(()=>caches.match(e.request)));return;}e.respondWith(caches.match(e.request).then(c=>c||fetch(e.request).then(r=>{if(r&&r.status===200)caches.open(V).then(cc=>cc.put(e.request,r.clone()));return r;})));});`;
+  navigator.serviceWorker.register(URL.createObjectURL(new Blob([sw],{type:'application/javascript'}))).catch(()=>{});
+}
+
+// INIT
+(function(){
+  document.querySelectorAll('.screen:not(.active)').forEach(s=>s.setAttribute('aria-hidden','true'));
+  document.body.style.background='var(--grad-loading)';
+  const saved=getSavedLocation(), cached=loadCache();
+  if(saved&&cached){state.lat=saved.lat;state.lng=saved.lng;applyWeatherData(cached.weather,cached.hourly,saved.name,true);return;}
+  if(saved){state.lat=saved.lat;state.lng=saved.lng;setLocationName(saved.name);showScreen('loading');fetchWeather(saved.lat,saved.lng);return;}
+})();
+</script>
+</body>
+</html>
